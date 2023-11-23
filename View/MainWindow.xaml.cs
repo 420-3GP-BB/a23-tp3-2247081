@@ -16,9 +16,25 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static RoutedCommand ChangerUtilisateur = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        //Fonction ChangerUtilisateur
+        private void ChangerUtilisateur_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ChoixUtilisateur windowChoix = new ChoixUtilisateur();
+            windowChoix.ShowDialog(); //Affiche la fenêtre ChoixUtilisateur
+        }
+        //Executer la fonction
+        private void ChangerUtilisateur_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
     }
+
+
 }

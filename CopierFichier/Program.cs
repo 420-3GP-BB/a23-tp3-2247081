@@ -32,7 +32,7 @@ bool ConfirmerOperation(string description)
 // Le dossier est créé s'il n'existe pas.
 void CopierFichier(string nomFichier)
 {
-    string pathMesDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    string pathMesDocuments = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
     string pathDossier = $"{pathMesDocuments}{DIR_SEPARATOR}Fichiers-3GP";
     string pathFichier = $"{pathDossier}{DIR_SEPARATOR}{nomFichier}";
 

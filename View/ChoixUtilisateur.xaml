@@ -1,0 +1,49 @@
+﻿<Window x:Class="View.ChoixUtilisateur"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:View"
+        mc:Ignorable="d"
+        Title="Choix d'utilisateur" 
+        Height="150" 
+        Width="300"
+        WindowStartupLocation="CenterScreen"
+        >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Grid.Row="0"
+            Text="Choissisez un utilisateur"
+            Margin="10"
+            />
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="7.5">
+            <TextBlock
+                Text="Utilisateur: "
+                Margin="5"
+                />
+            <ComboBox
+                Width="200"
+                Height="20"/>
+        </StackPanel>
+        <ToggleButton
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Grid.Row="2"
+            Content="Confirmer"
+            Width="125px"
+            Height="25px"
+            />
+    </Grid>
+</Window>

@@ -10,7 +10,154 @@
         Width="1280"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
-    <Grid>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.ChangerUtilisateur}"
+                        Executed="ChangerUtilisateur_Executed"
+                        CanExecute="ChangerUtilisateur_CanExecute"/>
+    </Window.CommandBindings>
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0"
+                    VerticalAlignment="Center"
+                    >
+            <TextBlock
+                Text="Nom de l'utilisateur: "
+                FontSize="30"
+                FontWeight="Bold"
+                Margin="10"
+                />
+            <TextBlock
+                Width="Auto"
+                x:Name="_showName"
+                Text="{Binding livre, Mode=OneWay}"
+            />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    >
+            <ToggleButton
+                Command="{x:Static local:MainWindow.ChangerUtilisateur}"
+                Content="Mode administrateur"
+                Width="125px"
+                Height="25px"
+                Margin="0,0,0,0"
+                />
+            <ToggleButton
+                Content="Quitter"
+                Width="125px"
+                Height="25px"
+                Margin="20,0,30,0"
+                />
+            <ToggleButton
+                Content="Changer d'utilisateur"
+                Width="125px"
+                Height="25px"
+                />
+        </StackPanel>
+        <StackPanel>
+
+        </StackPanel>
+        <Border
+            Grid.Row="1"
+            Grid.Column="0"
+            TextBlock.TextAlignment="Center"
+            BorderThickness="3"
+            BorderBrush="Black"
+            Margin="5"
+            >
+            <StackPanel>
+                <TextBlock
+                    Text="Livres de l'utilisateur"
+                    FontSize="25"
+                    FontWeight="Bold"
+                    />
+                <ListBox x:Name="_listesUtilisateur"
+                         Height="500"
+                         Margin="5"/>
+                <StackPanel
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+                    <ToggleButton
+                        Content="Commander livre"
+                        Width="125px"
+                        Height="25px"
+                        Margin="60,5,120,5"
+                        />
+                    <ToggleButton
+                        Content="Transférer Livre"
+                        Width="125px"
+                        Height="25px"
+                        Margin="120,5,60,5"
+                        />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1">
+            <Border
+                Height="300"
+                Grid.Row="1"
+                Grid.Column="1"
+                TextBlock.TextAlignment="Center"
+                BorderThickness="3"
+                BorderBrush="Black"
+                Margin="5"
+                >
+                <StackPanel>
+                    <TextBlock
+                    Text="Commandes en attente"
+                    FontSize="25"
+                    FontWeight="Bold"
+                    />
+                    <ListBox x:Name="commandeAttente"
+                         Height="200"
+                         Margin="5"/>
+                    <StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                        <ToggleButton
+                        Content="Commander livre"
+                        Width="125px"
+                        Height="25px"
+                        Margin="5"
+                        />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Border
+                Height="300"
+                Grid.Row="1"
+                Grid.Column="1"
+                TextBlock.TextAlignment="Center"
+                BorderThickness="3"
+                BorderBrush="Black"
+                Margin="5"
+                >
+                <StackPanel>
+                    <TextBlock
+                        Text="Commandes traitées"
+                        FontSize="25"
+                        FontWeight="Bold"
+                        />
+                    <ListBox x:Name="_CommandesTraitees"
+                             Height="200"
+                             Margin="5"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </Grid>
 </Window>
