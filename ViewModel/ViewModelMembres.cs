@@ -31,14 +31,15 @@ namespace ViewModel
                 return _model.listeMembres;
             }
         }
-        //public ObservableCollection<Livres> listeLivres
-        //{
-        //    get
-        //    {
-        //        return membres.listeLivres;
-        //    }
-        //}
-        //public ObservableCollection<Commande> listeCommandes;
+
+        public ObservableCollection<Livres>? listeLivres
+        {
+            get
+            {
+                return _model.listeLivres;
+            }
+        }
+        public ObservableCollection<Commande> listeCommandes;
 
 
         public ViewModelMembres()
@@ -70,6 +71,13 @@ namespace ViewModel
         public void ChangerMembre(Object obj)
         {
             MembresActive = obj as Membres;
+            OnPropertyChange("");
+        }
+
+        public void ChargerUserLivre(string nomFichier)
+        {
+            _nomFichier = nomFichier;
+            _model.ChargerMembreLivres(_nomFichier);
             OnPropertyChange("");
         }
 

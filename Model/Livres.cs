@@ -11,8 +11,6 @@ namespace Model
 {
     public class Livres
     {
-        private char DIR_SEPARATOR = Path.DirectorySeparatorChar;
-        private string pathFichier;
 
         public string _Titre { get; set; }
         public string _Auteur { get; set; }

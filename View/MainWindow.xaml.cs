@@ -37,6 +37,8 @@ namespace View
                 modeAdmin.IsEnabled = true;
             }
             viewMembres.ChargerLastUser(pathFichier);
+            viewMembres.ChargerUserLivre(pathFichier);
+            _listesUtilisateur.ItemsSource = viewMembres.listeLivres;
         }
 
         //Fonction ChangerUtilisateur

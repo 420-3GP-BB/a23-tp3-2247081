@@ -8,13 +8,11 @@ namespace Model
 
     public class Membres
     {
-        public ObservableCollection<Livres> listeLivres { get; set; }
-        public ObservableCollection<Commande> listeCommandes { get; set; }
-
         public string _Nom {  get; set; }
         public string _Administrateur { get; set; }
 
-        public Membres() {
+        public Membres() 
+        {
             _Nom = "";
             _Administrateur = "";
         }
