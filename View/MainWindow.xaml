@@ -38,7 +38,9 @@
             <TextBlock
                 Width="Auto"
                 x:Name="_showName"
-                Text="{Binding livre, Mode=OneWay}"
+                Text="{Binding LastActive, Mode=TwoWay}"
+                FontSize="20"
+                Margin="5,17.5,0,0"
             />
         </StackPanel>
         <StackPanel Orientation="Horizontal"
@@ -49,21 +51,23 @@
                     >
             <ToggleButton
                 Command="{x:Static local:MainWindow.ChangerUtilisateur}"
+                Content="Changer d'utilisateur"
+                Width="125px"
+                Height="25px"
+                />
+            <ToggleButton
                 Content="Mode administrateur"
                 Width="125px"
                 Height="25px"
-                Margin="0,0,0,0"
+                Margin="30,0,30,0"
+                IsEnabled="False"
+                Name="modeAdmin"
                 />
             <ToggleButton
                 Content="Quitter"
                 Width="125px"
                 Height="25px"
-                Margin="20,0,30,0"
-                />
-            <ToggleButton
-                Content="Changer d'utilisateur"
-                Width="125px"
-                Height="25px"
+                Margin="0, 0, 30,0"
                 />
         </StackPanel>
         <StackPanel>

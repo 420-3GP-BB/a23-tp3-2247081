@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ViewModel;
+using System.Xml;
+using System.IO;
 
 namespace View
 {
@@ -19,9 +22,42 @@ namespace View
     /// </summary>
     public partial class ChoixUtilisateur : Window
     {
-        public ChoixUtilisateur()
+        public static RoutedCommand ConfirmerCmd = new RoutedCommand();
+
+        private ViewModelMembres _viewMembres;
+
+        MainWindow mainWindow;
+
+        private char DIR_SEPARATOR = System.IO.Path.DirectorySeparatorChar;
+        private string pathFichier;   // Le fichier de sauvegarde. Le choix d'un fichier peut être une décision d'interface
+                                      // Ex: Fichier-->Ouvrir
+
+        public ChoixUtilisateur(MainWindow mainW)
         {
+            pathFichier = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
+                          DIR_SEPARATOR + "Fichiers-3GP" + DIR_SEPARATOR + "bibliotheque.xml";
+            mainWindow = mainW;
+            _viewMembres = new ViewModelMembres();
             InitializeComponent();
+            DataContext = _viewMembres;
+
+
+
+            if (File.Exists(pathFichier))
+            {
+                _viewMembres.ChargerMembres(pathFichier);
+            }
+        }
+
+        private void Confirmer_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            _viewMembres.ChangerMembre(ComboBoxUtilisateur.SelectedItem);
+            Close();
+        }
+        //Executer la fonction
+        private void Confirmer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
         }
     }
 }

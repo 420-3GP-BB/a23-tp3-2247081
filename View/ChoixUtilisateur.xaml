@@ -10,6 +10,12 @@
         Width="300"
         WindowStartupLocation="CenterScreen"
         >
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:ChoixUtilisateur.ConfirmerCmd}"
+                        Executed="Confirmer_Executed"
+                        CanExecute="Confirmer_CanExecute"/>
+    </Window.CommandBindings>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -34,10 +40,14 @@
                 Margin="5"
                 />
             <ComboBox
+                x:Name="ComboBoxUtilisateur"
+                SelectedItem="{Binding MembresActice, Mode=TwoWay}"
+                ItemsSource="{Binding ListeMembres, Mode=OneWay}" 
                 Width="200"
                 Height="20"/>
         </StackPanel>
         <ToggleButton
+            Command="{x:Static local:ChoixUtilisateur.ConfirmerCmd}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Grid.Row="2"
