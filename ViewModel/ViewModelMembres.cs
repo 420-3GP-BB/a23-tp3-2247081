@@ -9,7 +9,8 @@ namespace ViewModel
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private ModelMembre _model;
+        private ModelMembre _modelmembre;
+        private ModelLivre _modellivre;
         private string? _nomFichier;
 
         public Membres? MembresActive 
@@ -24,19 +25,19 @@ namespace ViewModel
             set;
         }
 
+        public ObservableCollection<Livres> ListeLivres 
+        {
+            get
+            {
+                return _modellivre.listeLivres;
+            } 
+        }
+
         public ObservableCollection<Membres>? ListeMembres
         {
             get
             {
-                return _model.listeMembres;
-            }
-        }
-
-        public ObservableCollection<Livres>? listeLivres
-        {
-            get
-            {
-                return _model.listeLivres;
+                return _modelmembre.listeMembres;
             }
         }
         public ObservableCollection<Commande> listeCommandes;
@@ -44,7 +45,8 @@ namespace ViewModel
 
         public ViewModelMembres()
         {
-            _model = new ModelMembre();
+            _modelmembre = new ModelMembre();
+            _modellivre = new ModelLivre();
             MembresActive = null;
             _nomFichier = null;
         }
@@ -52,7 +54,7 @@ namespace ViewModel
         public void ChargerMembres(string nomFichier)
         {
             _nomFichier = nomFichier;
-            _model.ChargerFichierXml(_nomFichier);
+            _modelmembre.ChargerFichierXml(_nomFichier);
             if (ListeMembres != null && ListeMembres.Count > 0)
             {
                 MembresActive = ListeMembres[0];
@@ -63,21 +65,33 @@ namespace ViewModel
         public void ChargerLastUser(string nomFichier)
         {
             _nomFichier = nomFichier;
-            _model.ChargerLastUser(_nomFichier);
-            LastActive = _model._dernierUtilisateur;
+            _modelmembre.ChargerLastUser(_nomFichier);
+            LastActive = _modelmembre._dernierUtilisateur;
             OnPropertyChange("");
         }
 
-        public void ChangerMembre(Object obj)
+        public void ChangerMembre(Object obj, string nomFichier)
         {
             MembresActive = obj as Membres;
+            SauvegarderLastUser(nomFichier, MembresActive._Nom);
             OnPropertyChange("");
+        }
+
+        //Méthode pour faire la sauvegarde
+        public void SauvegarderLastUser(string nomFichier, string newDernier)
+        {
+            //Création du doc
+            XmlDocument doc = new XmlDocument();
+            XmlElement rootElement = doc.DocumentElement;
+
+            rootElement.SetAttribute("dernierUtilisateur", newDernier);
+            doc.Save(nomFichier);
         }
 
         public void ChargerUserLivre(string nomFichier)
         {
             _nomFichier = nomFichier;
-            _model.ChargerMembreLivres(_nomFichier);
+            _modellivre.ChargerLivres(_nomFichier);
             OnPropertyChange("");
         }
 

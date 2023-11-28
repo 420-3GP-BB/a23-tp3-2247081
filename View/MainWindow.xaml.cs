@@ -19,6 +19,8 @@ namespace View
     public partial class MainWindow : Window
     {
         public static RoutedCommand ChangerUtilisateur = new RoutedCommand();
+        public static RoutedCommand QuitterCmd = new RoutedCommand();
+        public static RoutedCommand CommanderLivreCmd = new RoutedCommand();
         
         public ViewModelMembres viewMembres = new ViewModelMembres();
 
@@ -38,7 +40,7 @@ namespace View
             }
             viewMembres.ChargerLastUser(pathFichier);
             viewMembres.ChargerUserLivre(pathFichier);
-            _listesUtilisateur.ItemsSource = viewMembres.listeLivres;
+            _listesUtilisateur.ItemsSource = viewMembres.ListeLivres;
         }
 
         //Fonction ChangerUtilisateur
@@ -49,6 +51,27 @@ namespace View
         }
         //Executer la fonction
         private void ChangerUtilisateur_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void Quitter_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
+        //Executer la fonction
+        private void Quitter_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CommanderLivre_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            CommandeLivre windowCommander = new CommandeLivre();
+            windowCommander.ShowDialog(); //Affiche la fenêtre ChoixUtilisateur
+        }
+        //Executer la fonction
+        private void CommanderLivre_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }

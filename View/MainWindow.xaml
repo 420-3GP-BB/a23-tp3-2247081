@@ -14,6 +14,12 @@
         <CommandBinding Command="{x:Static local:MainWindow.ChangerUtilisateur}"
                         Executed="ChangerUtilisateur_Executed"
                         CanExecute="ChangerUtilisateur_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindow.QuitterCmd}"
+                        Executed="Quitter_Executed"
+                        CanExecute="Quitter_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindow.CommanderLivreCmd}"
+                        Executed="CommanderLivre_Executed"
+                        CanExecute="CommanderLivre_CanExecute"/>
     </Window.CommandBindings>
 
     <Grid>
@@ -64,6 +70,7 @@
                 Name="modeAdmin"
                 />
             <ToggleButton
+                Command="{x:Static local:MainWindow.QuitterCmd}"
                 Content="Quitter"
                 Width="125px"
                 Height="25px"
@@ -94,6 +101,7 @@
                     Orientation="Horizontal"
                     VerticalAlignment="Center">
                     <ToggleButton
+                        Command="{x:Static local:MainWindow.CommanderLivreCmd}"
                         Content="Commander livre"
                         Width="125px"
                         Height="25px"

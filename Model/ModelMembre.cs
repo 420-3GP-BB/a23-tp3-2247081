@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Model
 {
@@ -16,18 +17,6 @@ namespace Model
             set;
         }
         public ObservableCollection<Membres> listeMembres
-        {
-            private set;
-            get;
-        }
-
-        public ObservableCollection<Livres> listeLivres
-        {
-            private set;
-            get;
-        }
-
-        public ObservableCollection<MembreLivres> listeMembreLivres
         {
             private set;
             get;
@@ -71,44 +60,6 @@ namespace Model
             XmlElement rootElement = document.DocumentElement;
 
             _dernierUtilisateur = rootElement.GetAttribute("dernierUtilisateur");
-        }
-
-        public void ChargerMembreLivres(string nomFichier)
-        {
-            int searchUser = 0;
-
-            XmlDocument document = new XmlDocument();
-            document.Load(nomFichier);
-            XmlElement rootElement = document.DocumentElement;
-
-            XmlElement membresElement = rootElement["membres"];
-            XmlNodeList lesMembresXML = membresElement.GetElementsByTagName("membre");
-
-            foreach (XmlElement elementMembres in lesMembresXML)
-            {
-                listeMembres.Add(new Membres(elementMembres));
-
-                // Access livre elements within the current membre
-                XmlNodeList elementLivres = elementMembres.GetElementsByTagName("livre");
-                foreach (XmlElement elemLivres in elementLivres)
-                {
-                    if (listeMembres[searchUser]._Nom == _dernierUtilisateur)
-                    {
-                        listeMembreLivres.Add(new MembreLivres(elemLivres));
-                    }
-                }
-
-                // Access commande elements within the current membre
-                XmlNodeList elementCommande = elementMembres.GetElementsByTagName("commande");
-                foreach (XmlElement elemCommande in elementCommande)
-                {
-                    if (listeMembres[searchUser]._Nom == _dernierUtilisateur)
-                    {
-                        listeCommande.Add(new Commande(elemCommande));
-                    }
-                }
-                searchUser++;
-            }
         }
 
         //// Sauvegarde les données

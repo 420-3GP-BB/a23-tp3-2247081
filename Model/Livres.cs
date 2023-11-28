@@ -9,15 +9,19 @@ using System.Xml;
 
 namespace Model
 {
-    public class Livres
+    public class Livres : IConversionXML
     {
-
+        public Dictionary<string, MembreLivres> keyValuePairs = new Dictionary<string, MembreLivres>();
+        public string _ISBN13 {  get; set; }
         public string _Titre { get; set; }
         public string _Auteur { get; set; }
         public string _Editeur { get; set; }
         public string _Annee { get; set; }
 
+
+
         public Livres() {
+            _ISBN13 = "";
             _Titre = "";
             _Auteur = "";
             _Editeur = "";
@@ -26,10 +30,35 @@ namespace Model
 
         public Livres(XmlElement xmlDocument)
         {
-            _Titre = xmlDocument.GetAttribute("titre");
-            _Auteur = xmlDocument.GetAttribute("auteur");
-            _Editeur = xmlDocument.GetAttribute("editeur");
-            _Annee = xmlDocument.GetAttribute("annee");
+            _ISBN13 = xmlDocument.GetAttribute("ISBN-13");
+            _Titre = xmlDocument.SelectSingleNode("titre").InnerText;
+            _Auteur = xmlDocument.SelectSingleNode("auteur").InnerText;
+            _Editeur = xmlDocument.SelectSingleNode("editeur").InnerText;
+            _Annee = xmlDocument.SelectSingleNode("annee").InnerText;
+        }
+
+        public XmlElement VersXML(XmlDocument doc)
+        {
+            //XmlElement elementEquipe = doc.CreateElement("Livres");
+            //elementEquipe.SetAttribute("nom", Nom);
+            //foreach (Joueur joueur in LesJoueurs)
+            //{
+            //    string nomJoueur = joueur.Nom;
+            //    XmlElement nouveauJoueur = doc.CreateElement("Joueur");
+            //    nouveauJoueur.InnerText = nomJoueur;
+            //    elementEquipe.AppendChild(nouveauJoueur);
+            //}
+            return null;
+
+        }
+
+        public void DeXML(XmlElement elem)
+        {
+            //XmlNodeList lesJoueurs = elem.GetElementsByTagName("Joueur");
+            //foreach (XmlElement elementJoueur in lesJoueurs)
+            //{
+            //    LesJoueurs.Add(new Joueur(elementJoueur.InnerText));
+            //}
         }
 
         //public ObservableCollection<Livres> ChargerFichierLivres()
@@ -70,7 +99,7 @@ namespace Model
 
         public override string ToString()
         {
-            return _Titre + ", " + _Auteur + "(" + _Annee + ")";
+            return _Titre + ", " + _Auteur + " (" + _Annee + ")";
         }
     }
 }

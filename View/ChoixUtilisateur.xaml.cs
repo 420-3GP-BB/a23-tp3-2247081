@@ -51,7 +51,7 @@ namespace View
 
         private void Confirmer_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _viewMembres.ChangerMembre(ComboBoxUtilisateur.SelectedItem);
+            _viewMembres.ChangerMembre(ComboBoxUtilisateur.SelectedItem, pathFichier);
             Close();
         }
         //Executer la fonction
