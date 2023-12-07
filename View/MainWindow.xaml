@@ -44,7 +44,7 @@
             <TextBlock
                 Width="Auto"
                 x:Name="_showName"
-                Text="{Binding LastActive, Mode=TwoWay}"
+                Text="{Binding LastActive, Mode=OneWay}"
                 FontSize="20"
                 Margin="5,17.5,0,0"
             />
@@ -95,6 +95,7 @@
                     FontWeight="Bold"
                     />
                 <ListBox x:Name="_listesUtilisateur"
+                         ItemsSource="{Binding LivresUtilisateur, Mode=OneWay}"
                          Height="500"
                          Margin="5"/>
                 <StackPanel
@@ -134,9 +135,11 @@
                     FontSize="25"
                     FontWeight="Bold"
                     />
-                    <ListBox x:Name="commandeAttente"
-                         Height="200"
-                         Margin="5"/>
+                    <ListBox 
+                        x:Name="commandeAttente"
+                        ItemsSource="{Binding CommandesUtilisateurAttente, Mode=OneWay}"
+                        Height="200"
+                        Margin="5"/>
                     <StackPanel
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
@@ -166,6 +169,7 @@
                         FontWeight="Bold"
                         />
                     <ListBox x:Name="_CommandesTraitees"
+                             ItemsSource="{Binding CommandesUtilisateurTraiter, Mode=OneWay}"
                              Height="200"
                              Margin="5"/>
                 </StackPanel>

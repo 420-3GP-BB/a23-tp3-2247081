@@ -11,14 +11,17 @@ namespace Model
 {
     public class Livres : IConversionXML
     {
-        public Dictionary<string, MembreLivres> keyValuePairs = new Dictionary<string, MembreLivres>();
         public string _ISBN13 {  get; set; }
         public string _Titre { get; set; }
         public string _Auteur { get; set; }
         public string _Editeur { get; set; }
         public string _Annee { get; set; }
 
-
+        //public Dictionary<string, string> livresDictionary
+        //{
+        //    get;
+        //    set;
+        //}
 
         public Livres() {
             _ISBN13 = "";
@@ -35,6 +38,7 @@ namespace Model
             _Auteur = xmlDocument.SelectSingleNode("auteur").InnerText;
             _Editeur = xmlDocument.SelectSingleNode("editeur").InnerText;
             _Annee = xmlDocument.SelectSingleNode("annee").InnerText;
+            //livresDictionary.Add(_ISBN13, $"{_Titre} {_Auteur} {_Editeur} {_Annee}");
         }
 
         public XmlElement VersXML(XmlDocument doc)
@@ -60,41 +64,6 @@ namespace Model
             //    LesJoueurs.Add(new Joueur(elementJoueur.InnerText));
             //}
         }
-
-        //public ObservableCollection<Livres> ChargerFichierLivres()
-        //{
-        //    ObservableCollection<Livres> listeLivres = new ObservableCollection<Livres>();
-        //    pathFichier = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
-        //                  DIR_SEPARATOR + "Fichiers-3GP" + DIR_SEPARATOR + "bibliotheque.xml";
-
-        //    XmlDocument document = new XmlDocument();
-        //    document.Load(pathFichier); //Charger le fichier
-        //    XmlElement racine = document.DocumentElement;
-
-        //    //Chercher le fil dans la racine du document (element_gtd)
-        //    XmlNodeList livres = racine.GetElementsByTagName("livres");
-
-        //    foreach (XmlElement livreNodes in livres)
-        //    {
-
-        //    }
-
-        //    foreach (XmlElement bibliothequeNode in biblio)
-        //    {
-        //        string lastUsers = bibliothequeNode.GetAttribute("dernierUtilisateur");
-        //        foreach (XmlElement membres in bibliothequeNode)
-        //        {
-        //            foreach (XmlElement membre in membres)
-        //            {
-        //                if (lastUsers.Equals(membre.GetAttribute("nom")))
-        //                {
-        //                    listeLivres.Add(new Livres(membre));
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return listeLivres;
-        //}
 
 
         public override string ToString()

@@ -38,15 +38,16 @@ namespace View
                           DIR_SEPARATOR + "Fichiers-3GP" + DIR_SEPARATOR + "bibliotheque.xml";
             mainWindow = mainW;
             _viewMembres = new ViewModelMembres();
+            _viewMembres.ChargerMembresOnly(pathFichier);
             InitializeComponent();
             DataContext = _viewMembres;
 
 
 
-            if (File.Exists(pathFichier))
-            {
-                _viewMembres.ChargerMembres(pathFichier);
-            }
+            //if (File.Exists(pathFichier))
+            //{
+            //    _viewMembres.ChargerMembres(pathFichier);
+            //}
         }
 
         private void Confirmer_Executed(object sender, ExecutedRoutedEventArgs e)

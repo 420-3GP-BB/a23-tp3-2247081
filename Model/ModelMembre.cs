@@ -22,22 +22,29 @@ namespace Model
             get;
         }
 
-        public ObservableCollection<Commande> listeCommande
+        public ObservableCollection<string> listeMembresOnly
         {
             private set;
             get;
         }
 
+        public Dictionary<string, Livres> livresDictionnaire
+        {
+            private set;
+            get;
+        }
 
         // Constructeur
-        public ModelMembre()
+        public ModelMembre(Dictionary<string, Livres> livresDictionary)
         {
+            livresDictionnaire = livresDictionary;
             listeMembres = new ObservableCollection<Membres>();
         }
 
         // Charge les données
         public void ChargerFichierXml(string nomFichier)
         {
+            ChargerLastUser(nomFichier);
             listeMembres = new ObservableCollection<Membres>();
 
             XmlDocument document = new XmlDocument();
@@ -49,7 +56,30 @@ namespace Model
             
             foreach (XmlElement elemMembres in lesMembresXML)
             {
-                listeMembres.Add(new Membres(elemMembres));
+                string nomMembre = elemMembres.GetAttribute("nom");
+                if (nomMembre == _dernierUtilisateur)
+                {
+                    listeMembres.Add(new Membres(elemMembres, livresDictionnaire));
+                    break;
+                }
+            }
+        }
+
+        public void ChargerAllUser(string nomFichier)
+        {
+            listeMembresOnly = new ObservableCollection<string>();
+
+            XmlDocument document = new XmlDocument();
+            document.Load(nomFichier);
+            XmlElement racine = document.DocumentElement;
+
+            XmlElement unNoeud = racine["membres"];
+            XmlNodeList lesMembresXML = unNoeud.GetElementsByTagName("membre");
+
+            foreach (XmlElement elemMembres in lesMembresXML)
+            {
+                string nomMembre = elemMembres.GetAttribute("nom");
+                listeMembresOnly.Add(nomMembre);
             }
         }
 

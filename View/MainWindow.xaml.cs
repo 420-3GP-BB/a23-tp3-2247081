@@ -33,14 +33,13 @@ namespace View
             pathFichier = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
                           DIR_SEPARATOR + "Fichiers-3GP" + DIR_SEPARATOR + "bibliotheque.xml";
             InitializeComponent();
-            DataContext = viewMembres;
             if (_showName.Equals("Achille Talon"))
             {
                 modeAdmin.IsEnabled = true;
             }
-            viewMembres.ChargerLastUser(pathFichier);
             viewMembres.ChargerUserLivre(pathFichier);
-            _listesUtilisateur.ItemsSource = viewMembres.ListeLivres;
+            viewMembres.ChargerMembres(pathFichier);
+            DataContext = viewMembres;
         }
 
         //Fonction ChangerUtilisateur

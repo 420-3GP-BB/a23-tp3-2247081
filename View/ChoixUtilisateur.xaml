@@ -42,7 +42,7 @@
             <ComboBox
                 x:Name="ComboBoxUtilisateur"
                 SelectedItem="{Binding MembresActice, Mode=TwoWay}"
-                ItemsSource="{Binding ListeMembres, Mode=OneWay}" 
+                ItemsSource="{Binding ListeMembresOnly, Mode=OneWay}" 
                 Width="200"
                 Height="20"/>
         </StackPanel>

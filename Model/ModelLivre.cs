@@ -10,16 +10,22 @@ namespace Model
 {
     public class ModelLivre
     {
+        public Dictionary<string, Livres> livresDictionary
+        {
+            get;
+            set;
+        }
+
         public ObservableCollection<Livres> listeLivres
         {
             get;
             set;
         }
 
-        public void ChargerLivres(string nomFichier)
+        public void ChargerLivres(string nomFichier, Membres test)
         {
+            livresDictionary = new Dictionary<string, Livres>();
             listeLivres = new ObservableCollection<Livres>();
-            int searchUser = 0;
 
             XmlDocument document = new XmlDocument();
             document.Load(nomFichier);
@@ -30,7 +36,10 @@ namespace Model
 
             foreach (XmlElement elementLivre in lesLivresXML)
             {
-                listeLivres.Add(new Livres(elementLivre));
+                Livres nouveau = new Livres(elementLivre);
+                listeLivres.Add(nouveau);
+                string ISBN13 = elementLivre.GetAttribute("ISBN-13");
+                livresDictionary[ISBN13] = nouveau;
             }
         }
     }
