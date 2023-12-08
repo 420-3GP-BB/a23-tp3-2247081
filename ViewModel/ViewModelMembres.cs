@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml;
 using Model;
@@ -26,62 +27,19 @@ namespace ViewModel
             set;
         }
 
-        public ObservableCollection<Livres> ListeLivres 
-        {
-            get
-            {
-                return _modellivre.listeLivres;
-            } 
-        }
         public ObservableCollection<Livres>? LivresUtilisateur
         {
             get => MembresActive.membreLivres;
-
-            //get 
-            //{
-            //    if (_membres.membreLivres == null)
-            //    {
-            //        return null;
-            //    }
-            //    else
-            //    {
-            //        return _membres.membreLivres;
-            //    }
-            //}
         }
 
         public ObservableCollection<Livres>? CommandesUtilisateurAttente
         {
             get => MembresActive.membreCommandeAttente;
-
-            //get 
-            //{
-            //    if (_membres.membreLivres == null)
-            //    {
-            //        return null;
-            //    }
-            //    else
-            //    {
-            //        return _membres.membreLivres;
-            //    }
-            //}
         }
 
         public ObservableCollection<Livres>? CommandesUtilisateurTraiter
         {
             get => MembresActive.membreCommandeTraiter;
-
-            //get 
-            //{
-            //    if (_membres.membreLivres == null)
-            //    {
-            //        return null;
-            //    }
-            //    else
-            //    {
-            //        return _membres.membreLivres;
-            //    }
-            //}
         }
 
         public ObservableCollection<Membres>? ListeMembres
@@ -100,14 +58,10 @@ namespace ViewModel
             }
         }
 
-        //public ObservableCollection<Commande> listeCommandes;
-
-
         public ViewModelMembres()
         {
             _membres = new Membres();
             _modellivre = new ModelLivre();
-//            _modelmembre = new ModelMembre(_modellivre.livresDictionary);
             MembresActive = null;
             _nomFichier = null;
         }
@@ -129,10 +83,6 @@ namespace ViewModel
             _modelmembre = new ModelMembre(_modellivre.livresDictionary);
             _nomFichier = nomFichier;
             _modelmembre.ChargerAllUser(_nomFichier);
-            //if (ListeMembres != null && ListeMembres.Count > 0)
-            //{
-            //    MembresActive = ListeMembres[0];
-            //}
             OnPropertyChange(nameof(_modelmembre._dernierUtilisateur));
         }
 
@@ -144,28 +94,27 @@ namespace ViewModel
             OnPropertyChange("");
         }
 
-        public void ChangerMembre(Object obj, string nomFichier)
+        public void ChangerMembre(string nomFichier)
         {
-            MembresActive = obj as Membres;
-            //SauvegarderLastUser(nomFichier, MembresActive._Nom);
-            OnPropertyChange("");
-        }
-
-        //Méthode pour faire la sauvegarde
-        public void SauvegarderLastUser(string nomFichier, string newDernier)
-        {
-            //Création du doc
             XmlDocument doc = new XmlDocument();
-            XmlElement rootElement = doc.DocumentElement;
+            doc.Load(nomFichier);
 
-            rootElement.SetAttribute("dernierUtilisateur", newDernier);
+            XmlElement rootElement = doc.DocumentElement;
+            rootElement.SetAttribute("dernierUtilisateur", LastActive);
             doc.Save(nomFichier);
+            ChargerUserLivre(nomFichier);
+            ChargerMembres(nomFichier);
+            _modelmembre.ChargerFichierXml(nomFichier);
+            OnPropertyChange(nameof(ListeMembres));
+            OnPropertyChange(nameof(LivresUtilisateur));
+            OnPropertyChange(nameof(CommandesUtilisateurAttente));
+            OnPropertyChange(nameof(CommandesUtilisateurTraiter));
         }
 
         public void ChargerUserLivre(string nomFichier)
         {
             _nomFichier = nomFichier;
-            _modellivre.ChargerLivres(_nomFichier, _membres);
+            _modellivre.ChargerLivres(_nomFichier);
             OnPropertyChange("");
         }
 

@@ -41,7 +41,7 @@
                 />
             <ComboBox
                 x:Name="ComboBoxUtilisateur"
-                SelectedItem="{Binding MembresActice, Mode=TwoWay}"
+                SelectedItem="{Binding LastActive, Mode=TwoWay}"
                 ItemsSource="{Binding ListeMembresOnly, Mode=OneWay}" 
                 Width="200"
                 Height="20"/>

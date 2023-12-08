@@ -22,7 +22,7 @@ namespace Model
             set;
         }
 
-        public void ChargerLivres(string nomFichier, Membres test)
+        public void ChargerLivres(string nomFichier)
         {
             livresDictionary = new Dictionary<string, Livres>();
             listeLivres = new ObservableCollection<Livres>();

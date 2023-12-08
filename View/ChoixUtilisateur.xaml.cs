@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using ViewModel;
 using System.Xml;
 using System.IO;
+using Model;
 
 namespace View
 {
@@ -52,7 +53,7 @@ namespace View
 
         private void Confirmer_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _viewMembres.ChangerMembre(ComboBoxUtilisateur.SelectedItem, pathFichier);
+            _viewMembres.ChangerMembre(pathFichier);
             Close();
         }
         //Executer la fonction
