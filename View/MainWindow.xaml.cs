@@ -22,6 +22,7 @@ namespace View
         public static RoutedCommand QuitterCmd = new RoutedCommand();
         public static RoutedCommand CommanderLivreCmd = new RoutedCommand();
         public static RoutedCommand AnnulerCommandeCmd = new RoutedCommand();
+        public static RoutedCommand TransfererLivreCmd = new RoutedCommand();
 
         public ViewModelMembres viewMembres = new ViewModelMembres();
 
@@ -91,7 +92,20 @@ namespace View
         {
             e.CanExecute = true;
         }
+
+        private void TransfererLivre_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (_listesUtilisateur.SelectedItem != null)
+            {
+                string selectedOption = _listesUtilisateur.SelectedItem.ToString();
+
+                viewMembres.deleteCommande(selectedOption, pathFichier);
+            }
+        }
+        //Executer la fonction
+        private void TransfererLivre_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
     }
-
-
 }

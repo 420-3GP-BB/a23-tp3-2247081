@@ -140,7 +140,6 @@
                     />
                     <ListBox 
                         x:Name="_CommandeAttente"
-                        SelectedItem="SelectedCommandeAttente"
                         ItemsSource="{Binding CommandesUtilisateurAttente, Mode=OneWay}"
                         Height="200"
                         Margin="5"
