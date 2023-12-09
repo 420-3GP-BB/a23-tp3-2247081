@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -92,49 +93,52 @@ namespace Model
             _dernierUtilisateur = rootElement.GetAttribute("dernierUtilisateur");
         }
 
-        //// Sauvegarde les données
-        //public void SauvegarderFichierXml(string nomFichier)
-        //{
-        //    XmlDocument document = new XmlDocument();
-        //    XmlElement racine = document.CreateElement("Ligue");
-        //    document.AppendChild(racine);
+        public void SauvegarderLivre(Livres livre, string nomFichier)
+        {
+            XmlDocument document = new XmlDocument();
+            document.Load(nomFichier);
+            XmlElement rootElement = document.DocumentElement;
 
-        //    XmlElement elementEquipe = document.CreateElement("Equipes");
-        //    racine.AppendChild(elementEquipe);
+            XmlElement membresElement = rootElement["membres"];
+            XmlNodeList lesMembresXML = membresElement.GetElementsByTagName("membre");
 
-        //    foreach (Equipe uneEquipe in LesEquipes)
-        //    {
-        //        XmlElement element = uneEquipe.VersXML(document);
-        //        elementEquipe.AppendChild(element);
-        //    }
-        //    document.Save(nomFichier);
-        //}
+            foreach (XmlElement elementMembre in lesMembresXML)
+            {
+                string nom = elementMembre.GetAttribute("nom");
+                if (_dernierUtilisateur == nom)
+                {
+                    XmlElement nouveauLivreMembre = document.CreateElement("commande");
+                    nouveauLivreMembre.SetAttribute("statut", "Attente");
+                    nouveauLivreMembre.SetAttribute("ISBN-13", livre._ISBN13);
+                    elementMembre.AppendChild(nouveauLivreMembre);
 
-        //// Ajoute un joueur à une équipe
-        //public void AjouterJoueur(Equipe equipe, string nomJoueur)
-        //{
-        //    equipe.AjouterJoueur(nomJoueur);
-        //}
+                    document.Save(nomFichier);
+                }  
+            }
 
-        //// Retire un joueur d'une équipe
-        //public void RetirerJoueur(Equipe equipe, string nomJoueur)
-        //{
-        //    equipe.RetirerJoueur(nomJoueur);
-        //}
+            XmlElement livresElement = rootElement["livres"];
+            XmlElement nouveauLivre = document.CreateElement("livre");
+            nouveauLivre.SetAttribute("ISBN-13", livre._ISBN13);
 
-        // Vérifie si une équipe existe déjà
-        //public bool EquipeExiste(string nomEquipe)
-        //{
-        //    bool equipePresente = false;
-        //    foreach (Equipe equipe in LesEquipes)
-        //    {
-        //        if (equipe.Nom == nomEquipe)
-        //        {
-        //            equipePresente = true;
-        //            break;
-        //        }
-        //    }
-        //    return equipePresente;
-        //}
+            XmlElement titreElement = document.CreateElement("titre");
+            titreElement.InnerText = livre._Titre;
+            nouveauLivre.AppendChild(titreElement);
+
+            XmlElement auteurElement = document.CreateElement("auteur");
+            auteurElement.InnerText = livre._Auteur;
+            nouveauLivre.AppendChild(auteurElement);
+
+            XmlElement editeurElement = document.CreateElement("editeur");
+            editeurElement.InnerText = livre._Editeur;
+            nouveauLivre.AppendChild(editeurElement);
+
+            XmlElement anneeElement = document.CreateElement("annee");
+            anneeElement.InnerText = livre._Annee;
+            nouveauLivre.AppendChild(anneeElement);
+
+            livresElement.AppendChild(nouveauLivre);
+
+            document.Save(nomFichier);
+        }
     }
 }

@@ -21,7 +21,8 @@ namespace View
         public static RoutedCommand ChangerUtilisateur = new RoutedCommand();
         public static RoutedCommand QuitterCmd = new RoutedCommand();
         public static RoutedCommand CommanderLivreCmd = new RoutedCommand();
-        
+        public static RoutedCommand AnnulerCommandeCmd = new RoutedCommand();
+
         public ViewModelMembres viewMembres = new ViewModelMembres();
 
         private char DIR_SEPARATOR = System.IO.Path.DirectorySeparatorChar;
@@ -45,7 +46,7 @@ namespace View
         //Fonction ChangerUtilisateur
         private void ChangerUtilisateur_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ChoixUtilisateur windowChoix = new ChoixUtilisateur(this);
+            ChoixUtilisateur windowChoix = new ChoixUtilisateur(this, viewMembres);
             windowChoix.ShowDialog(); //Affiche la fenêtre ChoixUtilisateur
         }
         //Executer la fonction
@@ -58,6 +59,7 @@ namespace View
         {
             Close();
         }
+
         //Executer la fonction
         private void Quitter_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -66,11 +68,26 @@ namespace View
 
         private void CommanderLivre_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            CommandeLivre windowCommander = new CommandeLivre();
+            CommandeLivre windowCommander = new CommandeLivre(this, viewMembres);
             windowCommander.ShowDialog(); //Affiche la fenêtre ChoixUtilisateur
         }
         //Executer la fonction
         private void CommanderLivre_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void AnnulerCommande_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (_CommandeAttente.SelectedItem != null)
+            {
+                string selectedOption = _CommandeAttente.SelectedItem.ToString();
+
+                viewMembres.deleteCommande(selectedOption, pathFichier);
+            }
+        }
+        //Executer la fonction
+        private void AnnulerCommande_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }

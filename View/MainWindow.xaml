@@ -20,6 +20,9 @@
         <CommandBinding Command="{x:Static local:MainWindow.CommanderLivreCmd}"
                         Executed="CommanderLivre_Executed"
                         CanExecute="CommanderLivre_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindow.AnnulerCommandeCmd}"
+                        Executed="AnnulerCommande_Executed"
+                        CanExecute="AnnulerCommande_CanExecute"/>
     </Window.CommandBindings>
 
     <Grid>
@@ -136,20 +139,23 @@
                     FontWeight="Bold"
                     />
                     <ListBox 
-                        x:Name="commandeAttente"
+                        x:Name="_CommandeAttente"
+                        SelectedItem="SelectedCommandeAttente"
                         ItemsSource="{Binding CommandesUtilisateurAttente, Mode=OneWay}"
                         Height="200"
-                        Margin="5"/>
+                        Margin="5"
+                        />
                     <StackPanel
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                         <ToggleButton
-                        Content="Commander livre"
-                        Width="125px"
-                        Height="25px"
-                        Margin="5"
-                        />
+                            Command="{x:Static local:MainWindow.AnnulerCommandeCmd}"
+                            Content="Annuler commande"
+                            Width="125px"
+                            Height="25px"
+                            Margin="5"
+                            />
                     </StackPanel>
                 </StackPanel>
             </Border>

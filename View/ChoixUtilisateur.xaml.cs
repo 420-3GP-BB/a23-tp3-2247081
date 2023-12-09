@@ -33,12 +33,12 @@ namespace View
         private string pathFichier;   // Le fichier de sauvegarde. Le choix d'un fichier peut être une décision d'interface
                                       // Ex: Fichier-->Ouvrir
 
-        public ChoixUtilisateur(MainWindow mainW)
+        public ChoixUtilisateur(MainWindow mainW, ViewModelMembres viewMembres)
         {
             pathFichier = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
                           DIR_SEPARATOR + "Fichiers-3GP" + DIR_SEPARATOR + "bibliotheque.xml";
             mainWindow = mainW;
-            _viewMembres = new ViewModelMembres();
+            _viewMembres = viewMembres;
             _viewMembres.ChargerMembresOnly(pathFichier);
             InitializeComponent();
             DataContext = _viewMembres;
@@ -54,6 +54,7 @@ namespace View
         private void Confirmer_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _viewMembres.ChangerMembre(pathFichier);
+
             Close();
         }
         //Executer la fonction

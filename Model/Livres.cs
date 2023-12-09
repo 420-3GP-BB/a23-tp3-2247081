@@ -23,12 +23,12 @@ namespace Model
         //    set;
         //}
 
-        public Livres() {
-            _ISBN13 = "";
-            _Titre = "";
-            _Auteur = "";
-            _Editeur = "";
-            _Annee = "";
+        public Livres(string ISBN13, string Titre, string Auteur, string Editeur, string Annee) {
+            _ISBN13 = ISBN13;
+            _Titre = Titre;
+            _Auteur = Auteur;
+            _Editeur = Editeur;
+            _Annee = Annee;
         }
 
         public Livres(XmlElement xmlDocument)

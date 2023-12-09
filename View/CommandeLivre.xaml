@@ -9,6 +9,11 @@
         Height="300" 
         Width="625"
         WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:CommandeLivre.ConfirmerCmd}"
+                        Executed="ConfirmerCommande_Executed"
+                        CanExecute="ConfirmerCommande_CanExecute"/>
+    </Window.CommandBindings>
     <Grid>
         <StackPanel
             Orientation="Vertical">
@@ -22,11 +27,11 @@
                 Orientation="Horizontal"
                 Margin="10">
                 <TextBlock
-                    x:Name="_entryISBN13"
                     Text="ISBN-13:"
                     Margin="0,0,20,0"
                     />
                 <TextBox
+                    x:Name="_entryISBN13"
                     Width="500"
                     />
             </StackPanel>
@@ -34,11 +39,11 @@
                 Orientation="Horizontal"
                 Margin="10">
                 <TextBlock
-                    x:Name="_entryTitre"
                     Text="Titre:"
                     Margin="0,0,40,0"
                     />
                 <TextBox
+                    x:Name="_entryTitre"
                     Width="500"
                     />
             </StackPanel>
@@ -46,11 +51,11 @@
                 Orientation="Horizontal"
                 Margin="10">
                 <TextBlock
-                    x:Name="_entryAuteur"
                     Text="Auteur:"
                     Margin="0,0,27.5,0"
                     />
                 <TextBox
+                    x:Name="_entryAuteur"
                     Width="500"
                     />
             </StackPanel>
@@ -59,11 +64,11 @@
                 Margin="10"
                 >
                 <TextBlock
-                    x:Name="_entryEditeur"
                     Text="Éditeur:"
                     Margin="0,0,25,0"
                     />
                 <TextBox
+                    x:Name="_entryEditeur"
                     Width="500"
                     />
             </StackPanel>
@@ -71,15 +76,16 @@
                 Orientation="Horizontal"
                 Margin="10">
                 <TextBlock
-                    x:Name="_entryAnnee"
                     Text="Année:"
                     Margin="0,0,27.5,0"
                     />
                 <TextBox
+                    x:Name="_entryAnnee"
                     Width="500"
                     />
             </StackPanel>
             <ToggleButton
+                Command="{x:Static local:CommandeLivre.ConfirmerCmd}"
                 Width="200"
                 Content="Comfirmer la commande"
                 />

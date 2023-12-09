@@ -102,13 +102,10 @@ namespace ViewModel
             XmlElement rootElement = doc.DocumentElement;
             rootElement.SetAttribute("dernierUtilisateur", LastActive);
             doc.Save(nomFichier);
+
             ChargerUserLivre(nomFichier);
             ChargerMembres(nomFichier);
             _modelmembre.ChargerFichierXml(nomFichier);
-            OnPropertyChange(nameof(ListeMembres));
-            OnPropertyChange(nameof(LivresUtilisateur));
-            OnPropertyChange(nameof(CommandesUtilisateurAttente));
-            OnPropertyChange(nameof(CommandesUtilisateurTraiter));
         }
 
         public void ChargerUserLivre(string nomFichier)
@@ -117,6 +114,106 @@ namespace ViewModel
             _modellivre.ChargerLivres(_nomFichier);
             OnPropertyChange("");
         }
+
+        public bool IsDigitsOnlyISBN(string ISBN)
+        {
+            foreach (char checkChar in ISBN)
+            {
+                if (checkChar < '0' || checkChar > '9')
+                {
+                    return false;
+                }   
+            }
+
+            return true;
+        }
+
+        public bool IsDigitsOnlyAnnee(string Annee)
+        {
+            foreach (char checkChar in Annee)
+            {
+                if (checkChar < '0' || checkChar > '9')
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void newLivres(string nomFichier, string ISBN13, string Titre, string Auteur, string Editeur, string Annee)
+        {
+            Livres livre = new Livres(ISBN13, Titre, Auteur, Editeur, Annee);
+            _modellivre.listeLivres.Add(livre);
+            CommandesUtilisateurAttente.Add(livre);
+            _modelmembre.SauvegarderLivre(livre, nomFichier);
+            OnPropertyChange("");
+        }
+
+        public void deleteCommande(string selectedItem, string nomFichier)
+        {
+            foreach (Livres livre in CommandesUtilisateurAttente)
+            {
+                if (livre.ToString() == selectedItem)
+                {
+                    CommandesUtilisateurAttente.Remove(livre);
+                    SauvegarderLivreCommande(selectedItem, nomFichier);
+                    break;
+                }
+            }
+        }
+
+        public void SauvegarderLivreCommande(string selectedItem, string nomFichier)
+        {
+            bool checkBreak = false;
+            string[] subs = selectedItem.Split(',');
+
+            foreach (var sub in selectedItem)
+            {
+                selectedItem = subs[0];
+                break;
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(nomFichier);
+            XmlElement rootElement = doc.DocumentElement;
+
+            XmlElement membresElement = rootElement["membres"];
+            XmlNodeList lesMembresXML = membresElement.GetElementsByTagName("membre");
+
+            foreach (XmlElement elementMembre in lesMembresXML)
+            {
+                string nom = elementMembre.GetAttribute("nom");
+                if (_modelmembre._dernierUtilisateur == nom)
+                {
+                    XmlNodeList commandesList = elementMembre.GetElementsByTagName("commande");
+                    foreach (XmlElement commandeNode in commandesList)
+                    {
+                        string ISBN13 = commandeNode.GetAttribute("ISBN-13");
+
+                        foreach (Livres livre in _modellivre.listeLivres)
+                        {
+                            if (livre._Titre == selectedItem && ISBN13 == livre._ISBN13)
+                            {
+                                elementMembre.RemoveChild(commandeNode);
+                                doc.Save(nomFichier);
+                                checkBreak = true;
+                                break;
+                            }
+                        }
+                        if (checkBreak)
+                        {
+                            break;
+                        }
+                    }
+                    if (checkBreak)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
 
         private void OnPropertyChange(string? property = null)
         {
