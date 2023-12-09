@@ -33,6 +33,7 @@
                 <TextBox
                     x:Name="_entryISBN13"
                     Width="500"
+                    TextChanged="_noEmpty"
                     />
             </StackPanel>
             <StackPanel
@@ -45,6 +46,7 @@
                 <TextBox
                     x:Name="_entryTitre"
                     Width="500"
+                    TextChanged="_noEmpty"
                     />
             </StackPanel>
             <StackPanel
@@ -57,6 +59,7 @@
                 <TextBox
                     x:Name="_entryAuteur"
                     Width="500"
+                    TextChanged="_noEmpty"
                     />
             </StackPanel>
             <StackPanel
@@ -70,6 +73,7 @@
                 <TextBox
                     x:Name="_entryEditeur"
                     Width="500"
+                    TextChanged="_noEmpty"
                     />
             </StackPanel>
             <StackPanel
@@ -82,12 +86,15 @@
                 <TextBox
                     x:Name="_entryAnnee"
                     Width="500"
+                    TextChanged="_noEmpty"
                     />
             </StackPanel>
             <ToggleButton
+                x:Name="_ConfirmerCommande"
                 Command="{x:Static local:CommandeLivre.ConfirmerCmd}"
                 Width="200"
                 Content="Comfirmer la commande"
+                IsEnabled="False"
                 />
         </StackPanel>
     </Grid>

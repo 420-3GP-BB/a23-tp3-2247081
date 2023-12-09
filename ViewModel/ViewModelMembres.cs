@@ -37,9 +37,21 @@ namespace ViewModel
             get => MembresActive.membreCommandeAttente;
         }
 
+        public ObservableCollection<string>? CommandesUtilisateurAttenteAdmin
+        {
+            get;
+            set;
+        }
+
         public ObservableCollection<Livres>? CommandesUtilisateurTraiter
         {
             get => MembresActive.membreCommandeTraiter;
+        }
+
+        public ObservableCollection<string>? CommandesUtilisateurTraiterAdmin
+        {
+            get;
+            set;
         }
 
         public ObservableCollection<Membres>? ListeMembres
@@ -214,6 +226,46 @@ namespace ViewModel
             }
         }
 
+        public void ChargerMembresLivres(string nomFichier)
+        {
+            CommandesUtilisateurAttenteAdmin = new ObservableCollection<string>();
+            CommandesUtilisateurTraiterAdmin = new ObservableCollection<string>();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(nomFichier);
+            XmlElement rootElement = doc.DocumentElement;
+
+            XmlElement membresElement = rootElement["membres"];
+            XmlNodeList lesMembresXML = membresElement.GetElementsByTagName("membre");
+
+            foreach (XmlElement elementMembre in lesMembresXML)
+            {
+                string nom = elementMembre.GetAttribute("nom");
+                XmlNodeList commandesList = elementMembre.GetElementsByTagName("commande");
+                foreach (XmlElement commandeNode in commandesList)
+                {
+                    string ISBN13 = commandeNode.GetAttribute("ISBN-13");
+                    string statut = commandeNode.GetAttribute("statut");
+
+                    if (_modelmembre.livresDictionnaire.ContainsKey(ISBN13))
+                    {
+                        if (statut.Equals("Attente"))
+                        {
+                            CommandesUtilisateurAttenteAdmin.Add($"{_modelmembre.livresDictionnaire[ISBN13]} ==> {nom}");
+                        }
+                        else if (statut.Equals("Traitee"))
+                        {
+                            CommandesUtilisateurTraiterAdmin.Add($"{_modelmembre.livresDictionnaire[ISBN13]} ==> {nom}");
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ChangerAnttentetoTraitee(string selectedItem)
+        {
+            CommandesUtilisateurAttenteAdmin.Remove(selectedItem);
+            CommandesUtilisateurTraiterAdmin.Add(selectedItem);
+        }
 
         private void OnPropertyChange(string? property = null)
         {

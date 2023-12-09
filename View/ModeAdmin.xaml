@@ -1,0 +1,77 @@
+﻿<Window x:Class="View.ModeAdmin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:View"
+        mc:Ignorable="d"
+        Title="Fenetre administration" 
+        Height="720" 
+        Width="1280"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Orientation="Vertical"
+            HorizontalAlignment="Center">
+            <TextBlock
+                TextAlignment="Center"
+                Text="Commanden en attente"
+                Margin="20"
+                FontSize="15"
+                FontWeight="Bold"
+                />
+            <ListBox
+                x:Name="_listeCommandeAttente"
+                ItemsSource="{Binding CommandesUtilisateurAttenteAdmin, Mode=TwoWay}"
+                BorderBrush="Gray"
+                Width="600"
+                Height="525"
+                Margin="5"
+                MouseDoubleClick="_listeCommandeAttente_MouseDoubleClick"
+                />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="1"
+            Orientation="Vertical"
+            HorizontalAlignment="Center">
+            <TextBlock
+                TextAlignment="Center"
+                Text="Commanden traitées"
+                Margin="20"
+                FontSize="15"
+                FontWeight="Bold"
+                />
+            <ListBox
+                ItemsSource="{Binding CommandesUtilisateurTraiterAdmin, Mode=TwoWay}"
+                x:Name="_listeCommandeTraiter"
+                BorderBrush="Gray"
+                Width="600"
+                Height="525"
+                Margin="5"
+                />
+        </StackPanel>
+        <ToggleButton
+            HorizontalAlignment="Right"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="100"
+            Height="20"
+            Content="Revenir"
+            Margin="30"
+            />
+    </Grid>
+
+</Window>

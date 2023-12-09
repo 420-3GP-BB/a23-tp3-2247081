@@ -38,54 +38,28 @@ namespace View
             InitializeComponent();
         }
 
+        private void _noEmpty(object sender, TextChangedEventArgs e)
+        {
+            if (_viewMembres.IsDigitsOnlyISBN(_entryISBN13.Text)
+                && _viewMembres.IsDigitsOnlyAnnee(_entryAnnee.Text)
+                && _entryISBN13.Text.Length == 13
+                && !_entryTitre.Text.Equals("")
+                && !_entryAuteur.Text.Equals("")
+                && !_entryEditeur.Text.Equals(""))
+            {
+                _ConfirmerCommande.IsEnabled = true;
+            }
+        }
+
         private void ConfirmerCommande_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            string ISBN13 = _entryISBN13.Text;
-            string Titre = _entryTitre.Text;
-            string Auteur = _entryAuteur.Text;
-            string Editeur = _entryEditeur.Text;
-            string Annee = _entryAnnee.Text;
-
-            if (_viewMembres.IsDigitsOnlyISBN(ISBN13)
-                && _viewMembres.IsDigitsOnlyAnnee(Annee)
-                && ISBN13.Length == 13
-                && !Titre.Equals("")
-                && !Auteur.Equals("")
-                && !Editeur.Equals(""))
-            {
-                _viewMembres.newLivres(pathFichier, ISBN13, Titre, Auteur, Editeur, Annee);
-                Close();
-            }
-            else
-            {
-                if (!_viewMembres.IsDigitsOnlyISBN(ISBN13) 
-                    && ISBN13.Length == 13)
-                {
-                    MessageBox.Show("ISBN-13 peut contenir seulement 13 chiffres seulement");
-                }
-                if (!_viewMembres.IsDigitsOnlyAnnee(Annee)
-                    && Int32.Parse(Annee) > -3000)
-                {
-                    MessageBox.Show("L'année peut contenir seulement des chiffres seulement et plus grand que -3000");
-                }
-                if (Titre.Equals(""))
-                {
-                    MessageBox.Show("Le titre ne peut pas être null");
-                }
-                if (Auteur.Equals(""))
-                {
-                    MessageBox.Show("L'auteur ne peut pas être null");
-                }
-                if (Editeur.Equals(""))
-                {
-                    MessageBox.Show("L'éditeur ne peut pas être null");
-                }
-                _entryISBN13.Text = "";
-                _entryTitre.Text = "";
-                _entryAuteur.Text = "";
-                _entryEditeur.Text = "";
-                _entryAnnee.Text = "";
-            }
+            _viewMembres.newLivres(pathFichier, 
+                _entryISBN13.Text, 
+                _entryTitre.Text, 
+                _entryAuteur.Text, 
+                _entryEditeur.Text, 
+                _entryAnnee.Text);
+            Close();
         }
         //Executer la fonction
         private void ConfirmerCommande_CanExecute(object sender, CanExecuteRoutedEventArgs e)

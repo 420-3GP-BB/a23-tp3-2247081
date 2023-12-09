@@ -19,6 +19,7 @@ namespace View
     public partial class MainWindow : Window
     {
         public static RoutedCommand ChangerUtilisateur = new RoutedCommand();
+        public static RoutedCommand ModeAdminCmd = new RoutedCommand();
         public static RoutedCommand QuitterCmd = new RoutedCommand();
         public static RoutedCommand CommanderLivreCmd = new RoutedCommand();
         public static RoutedCommand AnnulerCommandeCmd = new RoutedCommand();
@@ -27,7 +28,7 @@ namespace View
         public ViewModelMembres viewMembres = new ViewModelMembres();
 
         private char DIR_SEPARATOR = System.IO.Path.DirectorySeparatorChar;
-        private string pathFichier;   // Le fichier de sauvegarde. Le choix d'un fichier peut être une décision d'interface
+        public string pathFichier;    // Le fichier de sauvegarde. Le choix d'un fichier peut être une décision d'interface
                                       // Ex: Fichier-->Ouvrir
 
         public MainWindow()
@@ -35,26 +36,48 @@ namespace View
             pathFichier = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
                           DIR_SEPARATOR + "Fichiers-3GP" + DIR_SEPARATOR + "bibliotheque.xml";
             InitializeComponent();
-            if (_showName.Equals("Achille Talon"))
+            viewMembres.ChargerUserLivre(pathFichier);
+            viewMembres.ChargerMembres(pathFichier);
+            if (viewMembres.MembresActive._Nom.Equals("Achille Talon"))
             {
                 modeAdmin.IsEnabled = true;
             }
-            viewMembres.ChargerUserLivre(pathFichier);
-            viewMembres.ChargerMembres(pathFichier);
             DataContext = viewMembres;
         }
 
         //Fonction ChangerUtilisateur
         private void ChangerUtilisateur_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            
             ChoixUtilisateur windowChoix = new ChoixUtilisateur(this, viewMembres);
             windowChoix.ShowDialog(); //Affiche la fenêtre ChoixUtilisateur
+            if (viewMembres.MembresActive._Nom.Equals("Achille Talon"))
+            {
+                modeAdmin.IsEnabled = true;
+            }
+            else
+            {
+                modeAdmin.IsEnabled = false;
+            }
         }
         //Executer la fonction
         private void ChangerUtilisateur_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
+
+        private void ModeAdmin_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ModeAdmin modeAdmin = new ModeAdmin(this, viewMembres);
+            modeAdmin.ShowDialog();
+        }
+
+        //Executer la fonction
+        private void ModeAdmin_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
 
         private void Quitter_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -93,19 +116,19 @@ namespace View
             e.CanExecute = true;
         }
 
-        private void TransfererLivre_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (_listesUtilisateur.SelectedItem != null)
-            {
-                string selectedOption = _listesUtilisateur.SelectedItem.ToString();
+        //private void TransfererLivre_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    if (_listesUtilisateur.SelectedItem != null)
+        //    {
+        //        string selectedOption = _listesUtilisateur.SelectedItem.ToString();
 
-                viewMembres.deleteCommande(selectedOption, pathFichier);
-            }
-        }
-        //Executer la fonction
-        private void TransfererLivre_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
+        //        viewMembres.deleteCommande(selectedOption, pathFichier);
+        //    }
+        //}
+        ////Executer la fonction
+        //private void TransfererLivre_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = true;
+        //}
     }
 }
