@@ -35,8 +35,17 @@ namespace View
         {
             if (_listeCommandeAttente.SelectedItems != null)
             {
-                string selectedOption = _listeCommandeAttente.SelectedItems.ToString();
-                _viewMembres.ChangerAnttentetoTraitee(selectedOption);
+                string selectedOption = (_listeCommandeAttente.SelectedItem as string);
+                _viewMembres.ChangerAttentetoTraitee(selectedOption, _mainWindow.pathFichier);
+            }
+        }
+
+        private void _listeCommandeTraiter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (_listeCommandeTraiter.SelectedItems != null)
+            {
+                string selectedOption = (_listeCommandeTraiter.SelectedItem as string);
+                _viewMembres.ChangerTraiteetoLivre(selectedOption, _mainWindow.pathFichier);
             }
         }
     }

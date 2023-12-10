@@ -66,10 +66,5 @@ namespace Model
                 }
             }
         }
-
-        public override string ToString()
-        {
-            return _Nom;
-        }
     }
 }

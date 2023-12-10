@@ -38,7 +38,7 @@ namespace View
             InitializeComponent();
             viewMembres.ChargerUserLivre(pathFichier);
             viewMembres.ChargerMembres(pathFichier);
-            if (viewMembres.MembresActive._Nom.Equals("Achille Talon"))
+            if (viewMembres.MembresActive._Administrateur.Equals("True"))
             {
                 modeAdmin.IsEnabled = true;
             }
@@ -51,7 +51,7 @@ namespace View
             
             ChoixUtilisateur windowChoix = new ChoixUtilisateur(this, viewMembres);
             windowChoix.ShowDialog(); //Affiche la fenêtre ChoixUtilisateur
-            if (viewMembres.MembresActive._Nom.Equals("Achille Talon"))
+            if (viewMembres.MembresActive._Administrateur.Equals("True"))
             {
                 modeAdmin.IsEnabled = true;
             }

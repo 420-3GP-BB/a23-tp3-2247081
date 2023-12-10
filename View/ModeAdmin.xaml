@@ -34,7 +34,7 @@
                 />
             <ListBox
                 x:Name="_listeCommandeAttente"
-                ItemsSource="{Binding CommandesUtilisateurAttenteAdmin, Mode=TwoWay}"
+                ItemsSource="{Binding CommandesUtilisateurAttenteAdmin, Mode=OneWay}"
                 BorderBrush="Gray"
                 Width="600"
                 Height="525"
@@ -55,12 +55,13 @@
                 FontWeight="Bold"
                 />
             <ListBox
-                ItemsSource="{Binding CommandesUtilisateurTraiterAdmin, Mode=TwoWay}"
+                ItemsSource="{Binding CommandesUtilisateurTraiterAdmin, Mode=OneWay}"
                 x:Name="_listeCommandeTraiter"
                 BorderBrush="Gray"
                 Width="600"
                 Height="525"
                 Margin="5"
+                MouseDoubleClick="_listeCommandeTraiter_MouseDoubleClick"
                 />
         </StackPanel>
         <ToggleButton

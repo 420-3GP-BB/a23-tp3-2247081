@@ -113,7 +113,7 @@ namespace Model
                     elementMembre.AppendChild(nouveauLivreMembre);
 
                     document.Save(nomFichier);
-                }  
+                }
             }
 
             XmlElement livresElement = rootElement["livres"];
