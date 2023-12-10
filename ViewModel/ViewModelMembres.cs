@@ -333,12 +333,13 @@ namespace ViewModel
         public void ChangerTraiteetoLivre(string selectedItem, string nomFichier)
         {
             string nomUser = null;
-            string[] subs = selectedItem.Split('=');
-            
+            string[] subs = selectedItem.Split('=', '>');
+
+
             foreach (var sub in selectedItem)
             {
                 selectedItem = subs[0];
-                nomUser = subs[2];
+                nomUser = subs[3];
                 break;
             }
 
@@ -347,16 +348,16 @@ namespace ViewModel
                 if (livre.ToString() + " " == selectedItem)
                 {
                     CommandesUtilisateurTraiter.Remove(livre);
-                    CommandesUtilisateurTraiterAdmin.Remove(selectedItem + "==> " + nomUser);
-                    _membres.membreLivres.Add(livre);
+                    CommandesUtilisateurTraiterAdmin.Remove(selectedItem + "==>" + nomUser);
+                    LivresUtilisateur.Add(livre);
                     break;
                 }
             }
-            SauvegarderTraiteetoLivre(selectedItem, nomFichier);
+            SauvegarderTraiteetoLivre(selectedItem, nomFichier, nomUser);
             OnPropertyChange("");
         }
 
-        public void SauvegarderTraiteetoLivre(string selectedItem, string nomFichier)
+        public void SauvegarderTraiteetoLivre(string selectedItem, string nomFichier, string nomUser)
         {
             bool checkBreak = false;
 
@@ -380,7 +381,7 @@ namespace ViewModel
                 string nom = elementMembre.GetAttribute("nom");
                 foreach (Livres livre in _modellivre.listeLivres)
                 {
-                    if (livre._Titre == selectedItem)
+                    if (livre._Titre == selectedItem && " " + nom == nomUser)
                     {
                         XmlElement nouveauLivreMembre = doc.CreateElement("livre");
                         nouveauLivreMembre.SetAttribute("ISBN-13", livre._ISBN13);
@@ -396,7 +397,7 @@ namespace ViewModel
                     string ISBN13 = elementCommande.GetAttribute("ISBN-13");
                     foreach (Livres livre in _modellivre.listeLivres)
                     {
-                        if (livre._ISBN13 == ISBN13)
+                        if (livre._Titre == selectedItem && livre._ISBN13 == ISBN13 && " " + nom == nomUser)
                         {
                             elementMembre.RemoveChild(elementCommande);
                             doc.Save(nomFichier);
@@ -409,39 +410,13 @@ namespace ViewModel
                         break;
                     }
                 }
-
-                //XmlNodeList commandesList = elementMembre.GetElementsByTagName("commande");
-                //foreach (XmlElement commandeNode in commandesList)
-                //{
-                //    string ISBN13 = commandeNode.GetAttribute("ISBN-13");
-
-                //    foreach (Livres livre in _modellivre.listeLivres)
-                //    {
-                //        if (livre._Titre == selectedItem && ISBN13 == livre._ISBN13)
-                //        {
-                //            commandeNode.SetAttribute("statut", "Traitee");
-                //            doc.Save(nomFichier);
-                //            OnPropertyChange("");
-                //        }
-                //    }
-                //}
+                if (checkBreak)
+                {
+                    break;
+                }
             }
+            OnPropertyChange("");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private void OnPropertyChange(string? property = null)
         {

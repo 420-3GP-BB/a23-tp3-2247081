@@ -20,6 +20,8 @@ namespace View
     /// </summary>
     public partial class ModeAdmin : Window
     {
+        public static RoutedCommand RevenirCmd = new RoutedCommand();
+
         private ViewModelMembres _viewMembres;
         private MainWindow _mainWindow;
         public ModeAdmin(MainWindow mainW, ViewModelMembres viewModelMembres)
@@ -47,6 +49,17 @@ namespace View
                 string selectedOption = (_listeCommandeTraiter.SelectedItem as string);
                 _viewMembres.ChangerTraiteetoLivre(selectedOption, _mainWindow.pathFichier);
             }
+        }
+
+        private void Revenir_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
+
+        //Executer la fonction
+        private void Revenir_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
         }
     }
 }

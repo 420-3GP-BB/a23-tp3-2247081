@@ -10,6 +10,11 @@
         Width="1280"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:ModeAdmin.RevenirCmd}"
+                    Executed="Revenir_Executed"
+                    CanExecute="Revenir_CanExecute"/>
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -65,6 +70,7 @@
                 />
         </StackPanel>
         <ToggleButton
+            Command="{x:Static local:ModeAdmin.RevenirCmd}"
             HorizontalAlignment="Right"
             Grid.Row="1"
             Grid.Column="1"
