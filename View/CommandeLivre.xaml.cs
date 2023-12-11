@@ -45,9 +45,14 @@ namespace View
                 && _entryISBN13.Text.Length == 13
                 && !_entryTitre.Text.Equals("")
                 && !_entryAuteur.Text.Equals("")
-                && !_entryEditeur.Text.Equals(""))
+                && !_entryEditeur.Text.Equals("")
+                && !_entryAnnee.Text.Equals(""))
             {
                 _ConfirmerCommande.IsEnabled = true;
+            }
+            else
+            {
+                _ConfirmerCommande.IsEnabled = false;
             }
         }
 

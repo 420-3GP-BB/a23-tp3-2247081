@@ -22,8 +22,8 @@ namespace View
         public static RoutedCommand ModeAdminCmd = new RoutedCommand();
         public static RoutedCommand QuitterCmd = new RoutedCommand();
         public static RoutedCommand CommanderLivreCmd = new RoutedCommand();
-        public static RoutedCommand AnnulerCommandeCmd = new RoutedCommand();
         public static RoutedCommand TransfererLivreCmd = new RoutedCommand();
+        public static RoutedCommand AnnulerCommandeCmd = new RoutedCommand();
 
         public ViewModelMembres viewMembres = new ViewModelMembres();
 
@@ -48,7 +48,6 @@ namespace View
         //Fonction ChangerUtilisateur
         private void ChangerUtilisateur_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            
             ChoixUtilisateur windowChoix = new ChoixUtilisateur(this, viewMembres);
             windowChoix.ShowDialog(); //Affiche la fenêtre ChoixUtilisateur
             if (viewMembres.MembresActive._Administrateur.Equals("True"))
@@ -101,6 +100,27 @@ namespace View
             e.CanExecute = true;
         }
 
+        private void TransfererLivre_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (_listesUtilisateur.SelectedItem != null)
+            {
+                string selectedItem = _listesUtilisateur.SelectedItem.ToString();
+                TransferUtilisateur windowTransfer = new TransferUtilisateur(this, viewMembres, selectedItem);
+                windowTransfer.ShowDialog(); //Affiche la fenêtre ChoixUtilisateur
+            }
+        }
+        //Executer la fonction
+        private void TransfererLivre_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (_listesUtilisateur.SelectedItem != null)
+            {
+                e.CanExecute = true;
+            } else 
+            { 
+                e.CanExecute = false; 
+            }
+        }
+
         private void AnnulerCommande_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (_CommandeAttente.SelectedItem != null)
@@ -115,20 +135,5 @@ namespace View
         {
             e.CanExecute = true;
         }
-
-        //private void TransfererLivre_Executed(object sender, ExecutedRoutedEventArgs e)
-        //{
-        //    if (_listesUtilisateur.SelectedItem != null)
-        //    {
-        //        string selectedOption = _listesUtilisateur.SelectedItem.ToString();
-
-        //        viewMembres.deleteCommande(selectedOption, pathFichier);
-        //    }
-        //}
-        ////Executer la fonction
-        //private void TransfererLivre_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        //{
-        //    e.CanExecute = true;
-        //}
     }
 }

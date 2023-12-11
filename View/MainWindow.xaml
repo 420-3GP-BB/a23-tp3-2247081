@@ -23,6 +23,9 @@
         <CommandBinding Command="{x:Static local:MainWindow.CommanderLivreCmd}"
                         Executed="CommanderLivre_Executed"
                         CanExecute="CommanderLivre_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindow.TransfererLivreCmd}"
+                        Executed="TransfererLivre_Executed"
+                        CanExecute="TransfererLivre_CanExecute"/>
         <CommandBinding Command="{x:Static local:MainWindow.AnnulerCommandeCmd}"
                         Executed="AnnulerCommande_Executed"
                         CanExecute="AnnulerCommande_CanExecute"/>
@@ -116,6 +119,7 @@
                         Margin="60,5,120,5"
                         />
                     <ToggleButton
+                        Command="{x:Static local:MainWindow.TransfererLivreCmd}"
                         Content="Transférer Livre"
                         Width="125px"
                         Height="25px"

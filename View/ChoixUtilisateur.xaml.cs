@@ -54,7 +54,6 @@ namespace View
         private void Confirmer_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _viewMembres.ChangerMembre(pathFichier);
-
             Close();
         }
         //Executer la fonction

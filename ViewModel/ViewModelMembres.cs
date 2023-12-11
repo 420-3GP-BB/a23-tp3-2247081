@@ -119,6 +119,7 @@ namespace ViewModel
             ChargerUserLivre(nomFichier);
             ChargerMembres(nomFichier);
             _modelmembre.ChargerFichierXml(nomFichier);
+            OnPropertyChange("");
         }
 
         public void ChargerUserLivre(string nomFichier)
@@ -126,6 +127,97 @@ namespace ViewModel
             _nomFichier = nomFichier;
             _modellivre.ChargerLivres(_nomFichier);
             OnPropertyChange("");
+        }
+
+        public void TransferLivre(string nomFichier, string selectedItem, string nomTransfer)
+        {
+            foreach (Livres livre in LivresUtilisateur)
+            {
+                if (livre.ToString() == selectedItem)
+                {
+                    LivresUtilisateur.Remove(livre);
+                    break;
+                }
+            }
+
+            bool checkBreak = false;
+            string[] subs = selectedItem.Split(',');
+
+            foreach (var sub in selectedItem)
+            {
+                selectedItem = subs[0];
+                break;
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(nomFichier);
+            XmlElement rootElement = doc.DocumentElement;
+
+            XmlElement membresElement = rootElement["membres"];
+            XmlNodeList lesMembresXML = membresElement.GetElementsByTagName("membre");
+
+            foreach (XmlElement elementMembre in lesMembresXML)
+            {
+                string nom = elementMembre.GetAttribute("nom");
+                if (MembresActive._Nom == nom)
+                {
+                    XmlNodeList livreList = elementMembre.GetElementsByTagName("livre");
+                    foreach (XmlElement elementLivre in livreList)
+                    {
+                        string ISBN13 = elementLivre.GetAttribute("ISBN-13");
+
+                        foreach (Livres livre in _modellivre.listeLivres)
+                        {
+                            if (livre._Titre == selectedItem && livre._ISBN13 == ISBN13)
+                            {
+                                elementMembre.RemoveChild(elementLivre);
+                                doc.Save(nomFichier);
+                                checkBreak = true;
+                                break;
+                            }
+                        }
+                        if (checkBreak)
+                        {
+                            break;
+                        }
+                    }
+                    //if (checkBreak)
+                    //{
+                    //    break;
+                    //}
+                }
+                checkBreak = false;
+                if (nomTransfer == nom)
+                {
+                    XmlNodeList livresList = elementMembre.GetElementsByTagName("livre");
+                    foreach (XmlElement livreNode in livresList)
+                    {
+                        string ISBN13 = livreNode.GetAttribute("ISBN-13");
+
+                        foreach (Livres livre in _modellivre.listeLivres)
+                        {
+                            if (livre._Titre == selectedItem)
+                            {
+                                XmlElement nouveauLivreMembre = doc.CreateElement("livre");
+                                nouveauLivreMembre.SetAttribute("ISBN-13", livre._ISBN13);
+                                elementMembre.AppendChild(nouveauLivreMembre);
+
+                                doc.Save(nomFichier);
+                                checkBreak = true;
+                                break;
+                            }
+                        }
+                        if (checkBreak)
+                        {
+                            break;
+                        }
+                    }
+                    //if (checkBreak)
+                    //{
+                    //    break;
+                    //}
+                }
+            }
         }
 
         public bool IsDigitsOnlyISBN(string ISBN)
