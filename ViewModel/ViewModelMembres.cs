@@ -235,15 +235,28 @@ namespace ViewModel
 
         public bool IsDigitsOnlyAnnee(string Annee)
         {
-            foreach (char checkChar in Annee)
+            if (!Annee.Equals(""))
             {
-                if (checkChar < '0' || checkChar > '9')
+                int startIndex = 0;
+                if (Annee[0] == '-')
                 {
-                    return false;
+                    startIndex = 1;
                 }
-            }
 
-            return true;
+                for (int i = startIndex; i < Annee.Length; i++)
+                {
+                    if (!char.IsDigit(Annee[i]))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void newLivres(string nomFichier, string ISBN13, string Titre, string Auteur, string Editeur, string Annee)
@@ -435,7 +448,7 @@ namespace ViewModel
                 break;
             }
 
-            foreach (Livres livre in CommandesUtilisateurTraiter)
+            foreach (Livres livre in _modellivre.listeLivres)
             {
                 if (livre.ToString() + " " == selectedItem)
                 {

@@ -46,7 +46,8 @@ namespace View
                 && !_entryTitre.Text.Equals("")
                 && !_entryAuteur.Text.Equals("")
                 && !_entryEditeur.Text.Equals("")
-                && !_entryAnnee.Text.Equals(""))
+                && !_entryAnnee.Text.Equals("") // No need to check for negative here
+                && Int32.Parse(_entryAnnee.Text) > -3000)
             {
                 _ConfirmerCommande.IsEnabled = true;
             }
