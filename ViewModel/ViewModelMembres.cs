@@ -207,9 +207,10 @@ namespace ViewModel
                     XmlNodeList livresList = elementMembre.GetElementsByTagName("livre");
                     foreach (XmlElement livreNode in livresList)
                     {
+                        string ISBN13 = livreNode.GetAttribute("ISBN-13");
                         foreach (Livres livre in _modellivre.listeLivres) //Liste de tous les livres
                         {
-                            if (livre._Titre == selectedItem) //COndition qui regarde si le titre du livre match le selectedItem
+                            if (livre._Titre == selectedItem && livre._ISBN13 != ISBN13) //COndition qui regarde si le titre du livre match le selectedItem
                             {
                                 XmlElement nouveauLivreMembre = doc.CreateElement("livre"); //Création du nouveau élément
                                 nouveauLivreMembre.SetAttribute("ISBN-13", livre._ISBN13); //Set l'attribut
@@ -274,7 +275,7 @@ namespace ViewModel
         public void newLivres(string nomFichier, string ISBN13, string Titre, string Auteur, string Editeur, string Annee)
         {
             Livres livre = new Livres(ISBN13, Titre, Auteur, Editeur, Annee); //set le nouveau livre
-            if (!_modellivre.livresDictionary.ContainsKey(ISBN13) || !_modellivre.livresDictionary.ContainsValue(livre)) //Condition permettant de regarde à l'ajout d'un nouveau s'il existe déjà dans le dictionnaire
+            if (!_modellivre.livresDictionary.ContainsKey(ISBN13)) //Condition permettant de regarde à l'ajout d'un nouveau s'il existe déjà dans le dictionnaire
             {
                 _modellivre.listeLivres.Add(livre); //Ajoute le nouveau livre dans la listeLivres
                 CommandesUtilisateurAttente.Add(livre); //Ajoute le nouveau livre dans CommandesUtilisateurAttente
