@@ -158,15 +158,6 @@ namespace ViewModel
                     break; //Break nécessaire en raison du modification (sort du foreach)
                 }
             }
-            
-            //Split pour prendre seulement le titre du selectedItem
-            string[] subs = selectedItem.Split(',');
-
-            foreach (var sub in selectedItem)
-            {
-                selectedItem = subs[0]; //Reset la variable selectedItem pour contenir seulement le titre du livre
-                break;
-            }
 
             XmlDocument doc = new XmlDocument(); //Initialisation du XmlDocment
             doc.Load(nomFichier);
@@ -187,7 +178,7 @@ namespace ViewModel
 
                         foreach (Livres livre in _modellivre.listeLivres) //Liste des livres
                         {
-                            if (livre._Titre == selectedItem && livre._ISBN13 == ISBN13) //Condition qui regarde si le titre et le ISBN-13 match le livre selectionné
+                            if (livre.ToString() == selectedItem && livre._ISBN13 == ISBN13) //Condition qui regarde si le titre et le ISBN-13 match le livre selectionné
                             {
                                 elementMembre.RemoveChild(elementLivre); //Si oui, on l'enlève
                                 doc.Save(nomFichier); //Sauvergarde le fichier
@@ -210,7 +201,7 @@ namespace ViewModel
                         string ISBN13 = livreNode.GetAttribute("ISBN-13");
                         foreach (Livres livre in _modellivre.listeLivres) //Liste de tous les livres
                         {
-                            if (livre._Titre == selectedItem && livre._ISBN13 != ISBN13) //COndition qui regarde si le titre du livre match le selectedItem et que l'ISBN13 ne se ressemble pas
+                            if (livre.ToString() == selectedItem && livre._ISBN13 != ISBN13) //COndition qui regarde si le titre du livre match le selectedItem et que l'ISBN13 ne se ressemble pas
                             {
                                 XmlElement nouveauLivreMembre = doc.CreateElement("livre"); //Création du nouveau élément
                                 nouveauLivreMembre.SetAttribute("ISBN-13", livre._ISBN13); //Set l'attribut
@@ -303,14 +294,6 @@ namespace ViewModel
         public void SauvegarderLivreCommande(string selectedItem, string nomFichier)
         {
             bool checkBreak = false;
-            //Split pour prendre seulement le titre du selectedItem
-            string[] subs = selectedItem.Split(',');
-
-            foreach (var sub in selectedItem)
-            {
-                selectedItem = subs[0]; //Reset la variable selectedItem pour contenir seulement le titre du livre
-                break;
-            }
 
             XmlDocument doc = new XmlDocument(); //Initialisation du XmlDocument
             doc.Load(nomFichier);
@@ -331,7 +314,7 @@ namespace ViewModel
 
                         foreach (Livres livre in _modellivre.listeLivres)
                         {
-                            if (livre._Titre == selectedItem && ISBN13 == livre._ISBN13) //Condition qui regarde si le titre et ISBN match avec le livre à enlever
+                            if (livre.ToString() == selectedItem && ISBN13 == livre._ISBN13) //Condition qui regarde si le titre et ISBN match avec le livre à enlever
                             {
                                 elementMembre.RemoveChild(commandeNode); //Enlève l'élément
                                 doc.Save(nomFichier); //Sauvergarder les changements
@@ -392,23 +375,18 @@ namespace ViewModel
         //Méthode qui change la commande en attente à la commande traitée
         public void ChangerAttentetoTraitee(string selectedItem, string nomFichier)
         {
-            //Split pour prendre seulement de titre
-            string selectedItemSplit = "";
-            string[] subs = selectedItem.Split('=');
-
-            foreach (var sub in selectedItem)
+            _modelmembre.ChargerAllUser(nomFichier);
+            foreach (string membre in _modelmembre.listeMembresOnly)
             {
-                selectedItemSplit = subs[0];
-                break;
-            }
-
-            foreach (Livres livre in CommandesUtilisateurAttente) //Loop pour enlever le selectedItem dans la commande en attente
-            {
-                if (livre.ToString() + " " == selectedItemSplit) //Condition qui regarde si le titre match
+                string currentNom = membre;
+                foreach (Livres livre in CommandesUtilisateurAttente) //Loop pour enlever le selectedItem dans la commande en attente
                 {
-                    CommandesUtilisateurAttente.Remove(livre); //Enlève dans CommandesUtilisateurAttente
-                    CommandesUtilisateurTraiter.Add(livre); //Ajout dans CommandesUtilisateurTraiter
-                    break;
+                    if ($"{livre} ==> {membre}" == selectedItem) //Condition qui regarde si le titre match
+                    {
+                        CommandesUtilisateurAttente.Remove(livre); //Enlève dans CommandesUtilisateurAttente
+                        CommandesUtilisateurTraiter.Add(livre); //Ajout dans CommandesUtilisateurTraiter
+                        break;
+                    }
                 }
             }
             CommandesUtilisateurAttenteAdmin.Remove(selectedItem); //Enlève dans CommandesUtilisateurAttente pour admin
@@ -420,15 +398,7 @@ namespace ViewModel
         //Méthode qui sauvegarde les changements entre commande en attente et commande traitée
         public void SauvegarderAttentetoTraitee(string selectedItem, string nomFichier)
         {
-            string[] subs = selectedItem.Split(',');
-
-            foreach (var sub in selectedItem)
-            {
-                selectedItem = subs[0];
-                break;
-            }
-
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument(); //Initialiser le XmlDocument
             doc.Load(nomFichier);
             XmlElement rootElement = doc.DocumentElement;
 
@@ -437,7 +407,7 @@ namespace ViewModel
 
             foreach (XmlElement elementMembre in lesMembresXML)
             {
-                //string nom = elementMembre.GetAttribute("nom");
+                string nom = elementMembre.GetAttribute("nom");
                 XmlNodeList commandesList = elementMembre.GetElementsByTagName("commande");
                 foreach (XmlElement commandeNode in commandesList)
                 {
@@ -445,7 +415,7 @@ namespace ViewModel
 
                     foreach (Livres livre in _modellivre.listeLivres) //Loop de tous les livres
                     {
-                        if (livre._Titre == selectedItem && ISBN13 == livre._ISBN13) //Condition qui regarde si le titre et ISBN13 match à la commande
+                        if ($"{livre} ==> {nom}" == selectedItem && ISBN13 == livre._ISBN13) //Condition qui regarde si le titre et ISBN13 match à la commande
                         {
                             commandeNode.SetAttribute("statut", "Traitee");
                             doc.Save(nomFichier); //Sauvegarder les changements
@@ -459,27 +429,22 @@ namespace ViewModel
         //Méthode qui effectue les changements entre les commandes traitées et les livres de l'utilisateur
         public void ChangerTraiteetoLivre(string selectedItem, string nomFichier)
         {
-            string nomUser = null;
-            //Split pour prendre seulement le titre
-            string[] subs = selectedItem.Split('=', '>');
-            foreach (var sub in selectedItem)
+            _modelmembre.ChargerAllUser(nomFichier);
+            foreach (string membre in _modelmembre.listeMembresOnly)
             {
-                selectedItem = subs[0];
-                nomUser = subs[3];
-                break;
-            }
-
-            foreach (Livres livre in _modellivre.listeLivres) //Loop de tous les livres
-            {
-                if (livre.ToString() + " " == selectedItem) //Condition qui regarde si le livre match avec le selectedItem
+                string currentNom = membre;
+                foreach (Livres livre in _modellivre.listeLivres) //Loop de tous les livres
                 {
-                    CommandesUtilisateurTraiter.Remove(livre); //Enlève la commande traitée aux livres de l'utilisateur
-                    CommandesUtilisateurTraiterAdmin.Remove(selectedItem + "==>" + nomUser); //Enlève la commande traitée aux livres de l'utilisateur pour admin
-                    LivresUtilisateur.Add(livre); //Ajoute dans les livres de l'utilisateur présent
-                    break;
+                    if ($"{livre} ==> {currentNom}" == selectedItem) //Condition qui regarde si le livre match avec le selectedItem
+                    {
+                        CommandesUtilisateurTraiter.Remove(livre); //Enlève la commande traitée aux livres de l'utilisateur
+                        CommandesUtilisateurTraiterAdmin.Remove(selectedItem); //Enlève la commande traitée aux livres de l'utilisateur pour admin
+                        LivresUtilisateur.Add(livre); //Ajoute dans les livres de l'utilisateur présent
+                        break;
+                    }
                 }
+                SauvegarderTraiteetoLivre(selectedItem, nomFichier, currentNom); //Appelle de la méthode de sauvegarde
             }
-            SauvegarderTraiteetoLivre(selectedItem, nomFichier, nomUser); //Appelle de la méthode de sauvegarde
             OnPropertyChange(""); //Déclenche un événement de modification pour notifier les observateurs
         }
 
@@ -487,15 +452,6 @@ namespace ViewModel
         public void SauvegarderTraiteetoLivre(string selectedItem, string nomFichier, string nomUser)
         {
             bool checkBreak = false;
-
-            //Prends seulement le titre
-            string[] subs = selectedItem.Split(',');
-
-            foreach (var sub in selectedItem)
-            {
-                selectedItem = subs[0];
-                break;
-            }
 
             XmlDocument doc = new XmlDocument(); //Initialise le XmlDocument
             doc.Load(nomFichier);
@@ -509,7 +465,7 @@ namespace ViewModel
                 string nom = elementMembre.GetAttribute("nom"); //Set le nom courant du loop
                 foreach (Livres livre in _modellivre.listeLivres) //Loop sur tous les livres
                 {
-                    if (livre._Titre == selectedItem && " " + nom == nomUser) //Condition qui regarde si le titre et le nom courant match
+                    if ($"{livre} ==> {nom}" == selectedItem && nom == nomUser) //Condition qui regarde si le titre et le nom courant match
                     {
                         XmlElement nouveauLivreMembre = doc.CreateElement("livre"); //Si oui, creation du nouveau élément livre
                         nouveauLivreMembre.SetAttribute("ISBN-13", livre._ISBN13); //Set ses attributs
@@ -525,7 +481,7 @@ namespace ViewModel
                     string ISBN13 = elementCommande.GetAttribute("ISBN-13"); //Set ISBN13
                     foreach (Livres livre in _modellivre.listeLivres)
                     {
-                        if (livre._Titre == selectedItem && livre._ISBN13 == ISBN13 && " " + nom == nomUser) //Condition qui regarde le titre, le nom et l'ISBN13 s'il match
+                        if ($"{livre} ==> {nom}" == selectedItem && livre._ISBN13 == ISBN13 && nom == nomUser) //Condition qui regarde le titre, le nom et l'ISBN13 s'il match
                         {
                             elementMembre.RemoveChild(elementCommande); //Si oui, on enlève
                             doc.Save(nomFichier); //Sauvegarder le changement
