@@ -210,7 +210,7 @@ namespace ViewModel
                         string ISBN13 = livreNode.GetAttribute("ISBN-13");
                         foreach (Livres livre in _modellivre.listeLivres) //Liste de tous les livres
                         {
-                            if (livre._Titre == selectedItem && livre._ISBN13 != ISBN13) //COndition qui regarde si le titre du livre match le selectedItem
+                            if (livre._Titre == selectedItem && livre._ISBN13 != ISBN13) //COndition qui regarde si le titre du livre match le selectedItem et que l'ISBN13 ne se ressemble pas
                             {
                                 XmlElement nouveauLivreMembre = doc.CreateElement("livre"); //Création du nouveau élément
                                 nouveauLivreMembre.SetAttribute("ISBN-13", livre._ISBN13); //Set l'attribut
