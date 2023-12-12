@@ -8,7 +8,14 @@
         Title="CommandeLivre" 
         Height="300" 
         Width="625"
+        Background="LightGoldenrodYellow"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="styleButton">
+            <Setter Property="Button.Background" Value="LightCyan"/>
+            <Setter Property="Button.Foreground" Value="Black"/>
+        </Style>
+    </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:CommandeLivre.ConfirmerCmd}"
                         Executed="ConfirmerCommande_Executed"
@@ -89,12 +96,13 @@
                     TextChanged="_noEmpty"
                     />
             </StackPanel>
-            <ToggleButton
+            <Button
                 x:Name="_ConfirmerCommande"
                 Command="{x:Static local:CommandeLivre.ConfirmerCmd}"
                 Width="200"
                 Content="Comfirmer la commande"
                 IsEnabled="False"
+                Style="{StaticResource styleButton}"
                 />
         </StackPanel>
     </Grid>

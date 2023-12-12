@@ -35,9 +35,9 @@ namespace Model
             _Auteur = xmlDocument.SelectSingleNode("auteur").InnerText;
             _Editeur = xmlDocument.SelectSingleNode("editeur").InnerText;
             _Annee = xmlDocument.SelectSingleNode("annee").InnerText;
-            //livresDictionary.Add(_ISBN13, $"{_Titre} {_Auteur} {_Editeur} {_Annee}");
         }
 
+        //Retourne en format demandé
         public override string ToString()
         {
             return _Titre + ", " + _Auteur + " (" + _Annee + ")";

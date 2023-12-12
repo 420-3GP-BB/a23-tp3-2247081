@@ -8,8 +8,15 @@
         Title="Choix d'utilisateur" 
         Height="150" 
         Width="300"
+        Background="LightGoldenrodYellow"
         WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <Style x:Key="styleButton">
+            <Setter Property="Button.Background" Value="LightCyan"/>
+            <Setter Property="Button.Foreground" Value="Black"/>
+        </Style>
+    </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:TransferUtilisateur.ConfirmerCmd}"
                         Executed="Confirmer_Executed"
@@ -45,7 +52,7 @@
             Width="200"
             Height="20"/>
         </StackPanel>
-        <ToggleButton
+        <Button
             Command="{x:Static local:TransferUtilisateur.ConfirmerCmd}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -53,6 +60,7 @@
             Content="Confirmer"
             Width="125px"
             Height="25px"
+            Style="{StaticResource styleButton}"
             />
     </Grid>
 </Window>

@@ -9,7 +9,14 @@
         Height="720" 
         Width="1280"
         ResizeMode="NoResize"
+        Background="LightGoldenrodYellow"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="styleButton">
+            <Setter Property="Button.Background" Value="LightCyan"/>
+            <Setter Property="Button.Foreground" Value="Black"/>
+        </Style>
+    </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:ModeAdmin.RevenirCmd}"
                     Executed="Revenir_Executed"
@@ -78,6 +85,7 @@
             Height="20"
             Content="Revenir"
             Margin="30"
+            Style="{StaticResource styleButton}"
             />
     </Grid>
 

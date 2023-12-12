@@ -8,8 +8,15 @@
         Title="Bibliothèque distribuée" 
         Height="720" 
         Width="1280"
+        Background="LightGoldenrodYellow"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="styleButton">
+            <Setter Property="Button.Background" Value="LightCyan"/>
+            <Setter Property="Button.Foreground" Value="Black"/>
+        </Style>
+    </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.ChangerUtilisateur}"
                         Executed="ChangerUtilisateur_Executed"
@@ -64,13 +71,14 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     >
-            <ToggleButton
+            <Button
                 Command="{x:Static local:MainWindow.ChangerUtilisateur}"
                 Content="Changer d'utilisateur"
                 Width="125px"
                 Height="25px"
+                Style="{StaticResource styleButton}"
                 />
-            <ToggleButton
+            <Button
                 Command="{x:Static local:MainWindow.ModeAdminCmd}"
                 Content="Mode administrateur"
                 Width="125px"
@@ -78,13 +86,15 @@
                 Margin="30,0,30,0"
                 IsEnabled="False"
                 Name="modeAdmin"
+                Style="{StaticResource styleButton}"
                 />
-            <ToggleButton
+            <Button
                 Command="{x:Static local:MainWindow.QuitterCmd}"
                 Content="Quitter"
                 Width="125px"
                 Height="25px"
                 Margin="0, 0, 30,0"
+                Style="{StaticResource styleButton}"
                 />
         </StackPanel>
         <StackPanel>
@@ -111,19 +121,21 @@
                 <StackPanel
                     Orientation="Horizontal"
                     VerticalAlignment="Center">
-                    <ToggleButton
+                    <Button
                         Command="{x:Static local:MainWindow.CommanderLivreCmd}"
                         Content="Commander livre"
                         Width="125px"
                         Height="25px"
                         Margin="60,5,120,5"
+                        Style="{StaticResource styleButton}"
                         />
-                    <ToggleButton
+                    <Button
                         Command="{x:Static local:MainWindow.TransfererLivreCmd}"
                         Content="Transférer Livre"
                         Width="125px"
                         Height="25px"
                         Margin="120,5,60,5"
+                        Style="{StaticResource styleButton}"
                         />
                 </StackPanel>
             </StackPanel>
@@ -156,12 +168,13 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-                        <ToggleButton
+                        <Button
                             Command="{x:Static local:MainWindow.AnnulerCommandeCmd}"
                             Content="Annuler commande"
                             Width="125px"
                             Height="25px"
                             Margin="5"
+                            Style="{StaticResource styleButton}"
                             />
                     </StackPanel>
                 </StackPanel>
